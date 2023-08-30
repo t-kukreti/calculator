@@ -1,0 +1,97 @@
+:root {
+    --background-color: rgb(233, 237, 240);
+    --button-shadow-color: rgb(215, 221, 225)
+}
+
+body {
+    background-color: #2fa487;
+}
+
+.container {
+    border: 1px solid #15212f;
+    border-radius: 4%;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--button-color);
+    padding: 2rem;
+    background-color: #15212f;
+    margin: 4rem auto;
+    box-shadow: 1px 2px 11px 4px #15212f;
+}
+
+.btn-container {
+    width: 252px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.btn {
+    color: white;
+    text-align: center;
+    background-color: var(--button-color);
+    font-size: 1.5rem;
+    border-radius: 100%;
+    border: 0.5px solid #dbd6d6;
+    padding: 1rem 1.3rem;
+    box-shadow: 3px 2px 0px var(--button-shadow-color);
+    transition: all 0.2s;
+}
+
+.green-btn {
+    color: #35b335;
+}
+
+.orange-btn {
+    color: #ffb01f;
+}
+
+#btn-0 {
+    width: 7.55rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    text-align: start;
+    border-radius: 21px;
+}
+
+#btn-dot,
+#btn-minus {
+    padding: 1rem 1.5rem;
+}
+
+#btn-percentage {
+    padding: 1rem;
+}
+
+#btn-C {
+    padding: 1rem 1.2rem;
+}
+
+#btn-backspace {
+    padding: 1rem;
+}
+
+.btn:active {
+    transform: translate(2px, 0.5px);
+    box-shadow: none;
+}
+
+#text-box {
+    border-radius: 2%;
+    padding-right: 10px;
+    text-align: end;
+    width: 250px;
+    font-size: 1.5rem;
+    height: 3.5rem;
+    background-color: #2a2a4a;
+    color: white;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    overflow: hidden;
+}
