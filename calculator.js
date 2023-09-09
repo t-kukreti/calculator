@@ -1,33 +1,27 @@
-// Todo: 
-// input valildation before calculating 
-// display errors
-// reseting to normal state after an error 
-// all done 
-// pending -> handle keydown events so that you can enter from keyboard. 
-const allOperand = document.querySelectorAll('.operand');
-const allOperator = document.querySelectorAll('.operator');
-const equals = document.querySelector('.equalsTo');
-const textBox = document.getElementById('text-box');
-const clearBtn = document.getElementById('btn-C');
-const backspaceBtn = document.getElementById('btn-backspace');
-let enteredOnce = false;
-let sol = 0;
-clearBtn.addEventListener('click',function(){
-    calculatorState.currentInput = '';
-    calculatorState.cd = '';
-    calculatorState.op = null;
-    calculatorState.num1 = null;
-    calculatorState.num2 = null;
-    enteredOnce = false;
-    updateDisplay();
-    sol = 0;
-});
-backspaceBtn.addEventListener('click',function(){
+(function(){
+
+    const allOperand = document.querySelectorAll('.operand');
+    const allOperator = document.querySelectorAll('.operator');
+    const equals = document.querySelector('.equalsTo');
+    const textBox = document.getElementById('text-box');
+    const clearBtn = document.getElementById('btn-C');
+    const backspaceBtn = document.getElementById('btn-backspace');
+    let enteredOnce = false;
+    let sol = 0;
+    const clearScreen = () => {
+        calculatorState.currentInput = '';
+        calculatorState.cd = '';
+        calculatorState.op = null;
+        calculatorState.num1 = null;
+        calculatorState.num2 = null;
+        enteredOnce = false;
+        updateDisplay();
+        sol = 0;
+    };
+    clearBtn.addEventListener('click',clearScreen);
+    backspaceBtn.addEventListener('click',function(){
     handleBackspace();
 });
-
-
-
 
 const calculatorState = {
     cd: '',
@@ -41,16 +35,16 @@ const updateDisplay = () => {
     textBox.textContent = calculatorState.cd;
 };
 
-function isOperatorPresent(str){
-const operators = /[+\-×÷*/]/;
-    if(operators.test(str)){
-        return true;
+const isOperatorPresent = (str) => {
+const operators = /[+\-×÷*%/]/;
+if(operators.test(str)){
+    return true;
     }
     else{
         return false;
     }
 }
-function numOfOperatorsPresent(str){
+const numOfOperatorsPresent = (str) => {
     let countOfOperators = 0;
     for(let i=0; i<str.length; i++){
         if(isOperatorPresent(str[i])){
@@ -94,10 +88,13 @@ const handleKeydownEvent = (e) => {
     }
     else if (e.key === 'Backspace'){
         handleBackspace();
+    }
+    else if (e.key === 'c'){
+        clearScreen();
     } 
 };
 
-function handleOperandInput(digit){
+const handleOperandInput = (digit) => {
     const str = calculatorState.cd.toString();
     if(str.includes('Error')){
         resetAfterError();
@@ -115,7 +112,7 @@ function handleOperandInput(digit){
         updateDisplay();
     }
 }
-function handleOperatorInput(operator){
+const handleOperatorInput = (operator) => {
     // handling keydown text events (*, /)
     if (operator === '*'){
         operator = '×'
@@ -128,7 +125,7 @@ function handleOperatorInput(operator){
         resetAfterError();
     }
     const lastChar = str[str.length-1];
-
+    
     if(isOperatorPresent(lastChar) && isOperatorPresent(operator)){
         calculatorState.cd = updateLastOperator(str, operator);
         updateDisplay();
@@ -151,7 +148,7 @@ function handleOperatorInput(operator){
         }
     }
 }
-function calculatePreviousNums(operator){
+const calculatePreviousNums = (operator) => {
     calculateResult();
     calculatorState.cd = `${sol}${operator}`;
     updateDisplay();
@@ -159,7 +156,7 @@ function calculatePreviousNums(operator){
     calculatorState.num1 = sol;
     calculatorState.op = operator;
 }
-function calculateResult() {
+const calculateResult = () => {
     calculatorState.num2 = parseFloat(calculatorState.currentInput);
     if(validValues(calculatorState.num1,calculatorState.op, calculatorState.num2)){
         sol = operate(calculatorState.num1, calculatorState.op, calculatorState.num2);
@@ -174,14 +171,14 @@ function calculateResult() {
     }
     return 1;
 }
-function showResult(){
+const showResult = () => {
     calculatorState.cd = sol;
     calculatorState.currentInput = sol;
     calculatorState.op = null;
     calculatorState.num2 = null;
     updateDisplay();
 }
-function showNewData(data){
+const  showNewData = (data) => {
     calculatorState.currentInput = data;
     calculatorState.cd = data;
     updateDisplay();
@@ -215,7 +212,7 @@ const handleBackspace = () => {
         updateDisplay();
     }
     else{
-        alert('clear the screen with C button');
+        alert('clear the screen with C button or press c key on your keyboard.');
     }
 };
 
@@ -235,19 +232,21 @@ const clearLastCharacter = (str) => {
     return str;
 };
 
-const add = (num1, num2)=>{return num1 + num2};
-const subtract = (num1, num2)=>{return num1 - num2};
-const multiply = (num1, num2)=>{return num1 * num2};
-const divide = (num1, num2)=>{return num1 / num2};
+const add = (num1, num2) => {return num1 + num2};
+const subtract = (num1, num2) => {return num1 - num2};
+const multiply = (num1, num2) => {return num1 * num2};
+const divide = (num1, num2) => {return num1 / num2};
+const modulus = (num1, num2) => {return num1 % num2};
 
-function operate(num1, operation, num2){
+const operate = (num1, operation, num2) => {
     switch(operation){
         case '+': return add(num1, num2); break;
         case '-': return subtract(num1, num2); break;
         case '×': return multiply(num1, num2); break;
         case '÷': return divide(num1, num2); break;
+        case '%' : return modulus(num1, num2); break;
     }
-}
+}; 
 const findIndexOfOperators = (str) => {
     for(let i = str.length; i >= 0; i--){
         if(isOperatorPresent(str[i])){
@@ -255,3 +254,4 @@ const findIndexOfOperators = (str) => {
         }
     }
 };
+})();
